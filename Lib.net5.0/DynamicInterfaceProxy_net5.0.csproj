@@ -21,7 +21,7 @@
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>..\(Stage)\Bin\net5.0\KornSW.DynamicRepository.xml</DocumentationFile>
+    <DocumentationFile>..\(Stage)\Bin\net5.0\KornSW.DynamicInterfaceProxy.xml</DocumentationFile>
     <OutputPath>..\(Stage)\Bin\net5.0\</OutputPath>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
@@ -30,7 +30,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <OutputPath>..\(Stage)\Bin\net5.0\</OutputPath>
-    <DocumentationFile>..\(Stage)\Bin\net5.0\KornSW.DynamicRepository.xml</DocumentationFile>
+    <DocumentationFile>..\(Stage)\Bin\net5.0\KornSW.DynamicInterfaceProxy.xml</DocumentationFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <NoWarn>1701;1702;1591</NoWarn>
     <DefineConstants>TRACE;NET5</DefineConstants>
