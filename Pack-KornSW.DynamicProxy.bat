@@ -1,5 +1,5 @@
 
-nuget pack ./KornSW.DynamicInterfaceProxy.nuspec -Symbols -OutputDirectory ".\(Stage)\Packages" -InstallPackageToOutputPath
+nuget pack ./KornSW.DynamicProxy.nuspec -Symbols -OutputDirectory ".\(Stage)\Packages" -InstallPackageToOutputPath
 
 IF NOT EXIST "..\..\(NuGetRepo)" GOTO NOCOPYTOGLOBALREPO
 xcopy ".\(Stage)\Packages\*.nuspec" "..\..\(NuGetRepo)\" /d /r /y /s

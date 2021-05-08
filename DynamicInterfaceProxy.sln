@@ -7,7 +7,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Lib.code", "Lib.code\Lib.co
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4130D21C-FE8F-4925-93E7-217B4AF1B7D9}"
 	ProjectSection(SolutionItems) = preProject
-		KornSW.DynamicInterfaceProxy.nuspec = KornSW.DynamicInterfaceProxy.nuspec
+		KornSW.DynamicProxy.nuspec = KornSW.DynamicProxy.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicInterfaceProxy_net461", "lib.net461\DynamicInterfaceProxy_net461.csproj", "{46ADC8B8-2F14-4C31-87CA-95B71EE09EF9}"
