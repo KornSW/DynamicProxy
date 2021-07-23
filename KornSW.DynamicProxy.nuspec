@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>KornSW.DynamicProxy</id>
-    <version>1.0.0-localbuild</version>
+    <version>1.1.0-localbuild</version>
     <title>KornSW.DynamicProxy</title>
     <authors>KornSW</authors>
     <owners>KornSW</owners>

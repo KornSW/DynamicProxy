@@ -147,6 +147,7 @@ namespace System.Reflection.Dynamic {
       // ##### METHOD DEFINITIONs #####
 
       foreach (var mi in applicableType.GetMethods()) {
+        var methodSignatureString = mi.ToString();
         var methodNameBlacklist = new[] { "ToString", "GetHashCode", "GetType", "Equals" };
         if (!mi.IsSpecialName && !methodNameBlacklist.Contains(mi.Name)) {
           bool isOverridable = !mi.Attributes.HasFlag(MethodAttributes.Final);
@@ -239,6 +240,7 @@ namespace System.Reflection.Dynamic {
               withBlock2.Emit(OpCodes.Ldstr, mi.Name); // < methodenname als string auf den stack holen
               withBlock2.Emit(OpCodes.Ldloc, argumentRedirectionArray); // pufferarray auf den stack holen
               withBlock2.Emit(OpCodes.Ldloc, argumentNameArray); // pufferarray auf den stack holen
+              withBlock2.Emit(OpCodes.Ldstr, methodSignatureString); // < methoden-signatur als string auf den stack holen
 
               // aufruf auf umgeleitete funktion absetzen
               withBlock2.Emit(OpCodes.Callvirt, iDynamicProxyInvokerTypeInvokeMethod); // _DynamicProxyInvoker.InvokeMethod("Foo", args)

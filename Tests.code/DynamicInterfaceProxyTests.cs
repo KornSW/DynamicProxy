@@ -48,7 +48,7 @@ namespace System.Reflection.Dynamic {
         Assert.Fail("a NotImplementedException should have been thrown, but didnt!");
       }
       catch (NotImplementedException ex) {
-        Assert.AreEqual("There is no Implementation for Method Foo(bar, suffix)", ex.Message );
+        Assert.AreEqual("There is no Implementation for Method System.String Foo(Int32, System.String)!", ex.Message );
       }
     }
 
@@ -57,7 +57,7 @@ namespace System.Reflection.Dynamic {
 
       DynamicProxyInvoker target = new DynamicProxyInvoker();
 
-      target.FallbackInvokeMethod = (method, args, names) => {
+      target.FallbackInvokeMethod = (method, args, names, signature) => {
         Assert.AreEqual("Foo", method);
         Assert.AreEqual("booooo", args[1]);
         return "hihi";
