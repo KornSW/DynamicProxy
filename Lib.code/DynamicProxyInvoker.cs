@@ -140,6 +140,39 @@ namespace System.Reflection.Dynamic {
       );
     }
 
+    public void DefineMethod(MethodInfo methodInfo, string overrideMethodName, Func<object[], object> method) {
+      var signature = methodInfo.ToString().Replace(methodInfo.Name + "(", overrideMethodName + "(");
+      _MethodsPerSignature.Add(
+        signature,
+        (object[] args) => {
+          var result = method.Invoke(args);
+          return result;
+        }
+      );
+    }
+
+    public void DefineMethod(MethodInfo methodInfo, object targetObject) {
+      var signature = methodInfo.ToString();
+      _MethodsPerSignature.Add(
+        signature,
+        (object[] args) => {
+          var result = methodInfo.Invoke(targetObject,args);
+          return result;
+        }
+      );
+    }
+
+    public void DefineMethod(MethodInfo methodInfo, string overrideMethodName, object targetObject) {
+      var signature = methodInfo.ToString().Replace(methodInfo.Name + "(", overrideMethodName + "(");
+      _MethodsPerSignature.Add(
+        signature,
+        (object[] args) => {
+          var result = methodInfo.Invoke(targetObject, args);
+          return result;
+        }
+      );
+    }
+
     public object InvokeMethod(string methodName, object[] arguments, string[] argumentNames, string methodSignatureString) {
 
       Func<object[], object> handle = null;

@@ -135,12 +135,12 @@ namespace System.Reflection.Dynamic {
         // CODE: Public Sub New(dynamicProxyInvoker As IDynamicProxyInvoker)
 
         {
-          var withBlock1 = constructorBuilder.GetILGenerator();
-          withBlock1.Emit(OpCodes.Nop); // ------------------
-          withBlock1.Emit(OpCodes.Ldarg, 0); // load Argument(0) (which is a pointer to the instance of our class)
-          withBlock1.Emit(OpCodes.Ldarg, 1); // load the Argument (Constructor-Param: IDynamicProxyInvoker)
-          withBlock1.Emit(OpCodes.Stfld, fieldBuilderDynamicProxyInvoker); // CODE: _DynamicProxyInvoker = dynamicProxyInvoker
-          withBlock1.Emit(OpCodes.Ret); // ------------------
+          var constructorIlGen = constructorBuilder.GetILGenerator();
+          constructorIlGen.Emit(OpCodes.Nop); // ------------------
+          constructorIlGen.Emit(OpCodes.Ldarg, 0); // load Argument(0) (which is a pointer to the instance of our class)
+          constructorIlGen.Emit(OpCodes.Ldarg, 1); // load the Argument (Constructor-Param: IDynamicProxyInvoker)
+          constructorIlGen.Emit(OpCodes.Stfld, fieldBuilderDynamicProxyInvoker); // CODE: _DynamicProxyInvoker = dynamicProxyInvoker
+          constructorIlGen.Emit(OpCodes.Ret); // ------------------
         }
       }
 
@@ -152,15 +152,40 @@ namespace System.Reflection.Dynamic {
         if (!mi.IsSpecialName && !methodNameBlacklist.Contains(mi.Name)) {
           bool isOverridable = !mi.Attributes.HasFlag(MethodAttributes.Final);
           if (mi.IsPublic && (baseType is null || isOverridable)) {
-            var paramTypes = mi.GetParameters().Select(p => p.ParameterType).ToArray();
-            var paramNames = mi.GetParameters().Select(p => p.Name).ToArray();
-            var paramEvalIsValueType = mi.GetParameters().Select(p => p.ParameterType.IsValueType).ToArray();
-            var paramEvalIsByRef = mi.GetParameters().Select(p => p.IsOut).ToArray();
-            var methodBuilder = typeBuilder.DefineMethod(mi.Name, MethodAttributes.Public | MethodAttributes.ReuseSlot | MethodAttributes.HideBySig | MethodAttributes.Virtual, mi.ReturnType, paramTypes);
-            var paramBuilders = new ParameterBuilder[paramNames.Length];
-            for (int paramIndex = 0, loopTo1 = paramNames.Length - 1; paramIndex <= loopTo1; paramIndex++) {
-              if (paramEvalIsByRef[paramIndex]) {
+
+            var realParamTypes = new List<Type>();
+            var paramTypesOrRefTypes = new List<Type>();
+            var paramNames = new List<String>();
+            var paramEvalIsValueType = new List<bool>();
+            var paramEvalIsByRef = new List<bool>();
+            var paramEvalIsOut = new List<bool>();
+
+            foreach (ParameterInfo pi in mi.GetParameters()) {
+              Type realType;
+
+              if (pi.ParameterType.IsByRef) {
+                realType = pi.ParameterType.GetElementType();
+                paramEvalIsByRef.Add(true);
+              }
+              else {
+                realType = pi.ParameterType;
+                paramEvalIsByRef.Add(false);
+              }
+              paramTypesOrRefTypes.Add(pi.ParameterType);
+              realParamTypes.Add(realType);
+              paramNames.Add(pi.Name);
+              paramEvalIsValueType.Add(realType.IsValueType);
+              paramEvalIsOut.Add(pi.IsOut);
+            }
+
+            var methodBuilder = typeBuilder.DefineMethod(mi.Name, MethodAttributes.Public | MethodAttributes.ReuseSlot | MethodAttributes.HideBySig | MethodAttributes.Virtual, mi.ReturnType, paramTypesOrRefTypes.ToArray());
+            var paramBuilders = new ParameterBuilder[paramNames.Count];
+            for (int paramIndex = 0, loopTo1 = paramNames.Count - 1; paramIndex <= loopTo1; paramIndex++) {
+              if (paramEvalIsOut[paramIndex]) {
                 paramBuilders[paramIndex] = methodBuilder.DefineParameter(paramIndex + 1, ParameterAttributes.Out, paramNames[paramIndex]);
+              }
+              else if (paramEvalIsByRef[paramIndex]) {
+                paramBuilders[paramIndex] = methodBuilder.DefineParameter(paramIndex + 1, ParameterAttributes.In | ParameterAttributes.Out, paramNames[paramIndex]);
               }
               else {
                 paramBuilders[paramIndex] = methodBuilder.DefineParameter(paramIndex + 1, ParameterAttributes.In, paramNames[paramIndex]);
@@ -171,127 +196,131 @@ namespace System.Reflection.Dynamic {
             }
 
             {
-              var withBlock2 = methodBuilder.GetILGenerator();
+              var methodIlGen = methodBuilder.GetILGenerator();
 
               // ##### LOCAL VARIABLE DEFINITIONs #####
 
               LocalBuilder localReturnValue = null;
               if (mi.ReturnType is object && !(mi.ReturnType.Name == "Void")) {
-                localReturnValue = withBlock2.DeclareLocal(mi.ReturnType);
+                localReturnValue = methodIlGen.DeclareLocal(mi.ReturnType);
               }
 
-              var argumentRedirectionArray = withBlock2.DeclareLocal(typeof(object[]));
-              var argumentNameArray = withBlock2.DeclareLocal(typeof(string[]));
-              withBlock2.Emit(OpCodes.Nop); // ------------------------------------------------------------------------
+              var argumentRedirectionArray = methodIlGen.DeclareLocal(typeof(object[]));
+              var argumentNameArray = methodIlGen.DeclareLocal(typeof(string[]));
+              methodIlGen.Emit(OpCodes.Nop); // ------------------------------------------------------------------------
 
               // ARRAY-INSTANZIIEREN
-              withBlock2.Emit(OpCodes.Ldc_I4_S, (byte)paramNames.Length); // CODE: Zahl x als (int32) wobei x die anzhalt der parameter unseerer methode ist
-              withBlock2.Emit(OpCodes.Newarr, typeof(object)); // CODE: Dim args(x) As Object
-              withBlock2.Emit(OpCodes.Stloc, argumentRedirectionArray);
-              withBlock2.Emit(OpCodes.Nop); // ------------------------------------------------------------------------
+              methodIlGen.Emit(OpCodes.Ldc_I4_S, (byte)paramNames.Count); // CODE: Zahl x als (int32) wobei x die anzhalt der parameter unseerer methode ist
+              methodIlGen.Emit(OpCodes.Newarr, typeof(object)); // CODE: Dim args(x) As Object
+              methodIlGen.Emit(OpCodes.Stloc, argumentRedirectionArray);
+              methodIlGen.Emit(OpCodes.Nop); // ------------------------------------------------------------------------
 
               // ARRAY-INSTANZIIEREN
-              withBlock2.Emit(OpCodes.Ldc_I4_S, (byte)paramNames.Length); // CODE: Zahl x als (int32) wobei x die anzhalt der parameter unseerer methode ist
-              withBlock2.Emit(OpCodes.Newarr, typeof(string)); // CODE: Dim args(x) As Object
-              withBlock2.Emit(OpCodes.Stloc, argumentNameArray);
+              methodIlGen.Emit(OpCodes.Ldc_I4_S, (byte)paramNames.Count); // CODE: Zahl x als (int32) wobei x die anzhalt der parameter unseerer methode ist
+              methodIlGen.Emit(OpCodes.Newarr, typeof(string)); // CODE: Dim args(x) As Object
+              methodIlGen.Emit(OpCodes.Stloc, argumentNameArray);
 
               // ------------------------------------------------------------------------
 
               // parameter in transport-array übertragen
-              for (int paramIndex = 0, loopTo2 = paramNames.Length - 1; paramIndex <= loopTo2; paramIndex++) {
+              for (int paramIndex = 0, loopTo2 = paramNames.Count - 1; paramIndex <= loopTo2; paramIndex++) {
                 bool paramIsValueType = paramEvalIsValueType[paramIndex];
-                bool paramIsByRef = paramEvalIsByRef[paramIndex];
-                var paramType = paramTypes[paramIndex];
-                withBlock2.Emit(OpCodes.Ldloc, argumentRedirectionArray); // transport-array laden
-                withBlock2.Emit(OpCodes.Ldc_I4_S, (byte)paramIndex); // arrayindex als integer (zwecks feld-addressierung) erzeugen
-                if (paramIsByRef && paramIsValueType) {
-                  withBlock2.Emit(OpCodes.Ldarga_S, paramIndex + 1); // zuzuweisendes methoden-argument auf den stack holen
-                }
-                else {
-                  withBlock2.Emit(OpCodes.Ldarg, paramIndex + 1);
-                } // zuzuweisendes methoden-argument auf den stack holen
+                bool paramIsOut = paramEvalIsOut[paramIndex];
+                bool paramIsRef = paramEvalIsByRef[paramIndex];
+                var paramType = realParamTypes[paramIndex];
 
-                if (paramIsByRef) {
-                  // resolve incomming byref handle into a new object address
-                  if (paramIsValueType) {
-                    withBlock2.Emit(OpCodes.Ldobj, paramType);
+                if (!paramIsOut) {
+
+                  methodIlGen.Emit(OpCodes.Ldloc, argumentRedirectionArray); // transport-array laden
+                  methodIlGen.Emit(OpCodes.Ldc_I4_S, (byte)paramIndex); // arrayindex als integer (zwecks feld-addressierung) erzeugen
+                
+                  if (paramIsRef) {
+
+                    // resolve incomming byref handle into a new object address
+                    if (paramIsValueType) {
+                      // methodIlGen.Emit(OpCodes.Ldarga_S, paramIndex + 1); // zuzuweisendes methoden-argument (bzw. desse nadresse) auf den stack holen
+                      methodIlGen.Emit(OpCodes.Ldarg, paramIndex + 1);
+                      methodIlGen.Emit(OpCodes.Ldobj, paramType);
+                    }
+                    else {
+
+                      //methodIlGen.Emit(OpCodes.Ldarga_S, paramIndex + 1); // zuzuweisendes methoden-argument (bzw. desse nadresse) auf den stack holen
+
+                      methodIlGen.Emit(OpCodes.Ldarg, paramIndex + 1);// zuzuweisendes methoden-argument auf den stack holen
+                      methodIlGen.Emit(OpCodes.Ldind_Ref);
+                    }
+
                   }
                   else {
-                    withBlock2.Emit(OpCodes.Ldind_Ref);
+                    methodIlGen.Emit(OpCodes.Ldarg, paramIndex + 1);// zuzuweisendes methoden-argument auf den stack holen
                   }
-                }
 
-                if (paramIsValueType) {
-                  withBlock2.Emit(OpCodes.Box, paramType); // value-types müssen geboxed werden, weil die array-felder vom typ "object" sind
-                }
+                  if (paramIsValueType) {
+                    methodIlGen.Emit(OpCodes.Box, paramType); // value-types müssen geboxed werden, weil die array-felder vom typ "object" sind
+                  }
 
-                withBlock2.Emit(OpCodes.Stelem_Ref); // ins transport-array hineinschreiben
+                  methodIlGen.Emit(OpCodes.Stelem_Ref); // ins transport-array hineinschreiben
+                }
 
                 // ------------------------------------------------------------------------
 
-                withBlock2.Emit(OpCodes.Ldloc, argumentNameArray); // transport-array laden
-                withBlock2.Emit(OpCodes.Ldc_I4_S, (byte)paramIndex); // arrayindex als integer (zwecks feld-addressierung) erzeugen
-                withBlock2.Emit(OpCodes.Ldstr, paramNames[paramIndex]); // name als string bereitlegen (als array inhalt)
-                withBlock2.Emit(OpCodes.Stelem_Ref); // ins transport-array hineinschreiben
+                methodIlGen.Emit(OpCodes.Ldloc, argumentNameArray); // transport-array laden
+                methodIlGen.Emit(OpCodes.Ldc_I4_S, (byte)paramIndex); // arrayindex als integer (zwecks feld-addressierung) erzeugen
+                methodIlGen.Emit(OpCodes.Ldstr, paramNames[paramIndex]); // name als string bereitlegen (als array inhalt)
+                methodIlGen.Emit(OpCodes.Stelem_Ref); // ins transport-array hineinschreiben
               }
 
-              withBlock2.Emit(OpCodes.Ldarg_0); // < unsere klasseninstanz auf den stack
-              withBlock2.Emit(OpCodes.Ldfld, fieldBuilderDynamicProxyInvoker); // feld '_DynamicProxyInvoker' laden auf den dtack)
-              withBlock2.Emit(OpCodes.Ldstr, mi.Name); // < methodenname als string auf den stack holen
-              withBlock2.Emit(OpCodes.Ldloc, argumentRedirectionArray); // pufferarray auf den stack holen
-              withBlock2.Emit(OpCodes.Ldloc, argumentNameArray); // pufferarray auf den stack holen
-              withBlock2.Emit(OpCodes.Ldstr, methodSignatureString); // < methoden-signatur als string auf den stack holen
+              methodIlGen.Emit(OpCodes.Ldarg_0); // < unsere klasseninstanz auf den stack
+              methodIlGen.Emit(OpCodes.Ldfld, fieldBuilderDynamicProxyInvoker); // feld '_DynamicProxyInvoker' laden auf den stack)
+              methodIlGen.Emit(OpCodes.Ldstr, mi.Name); // < methodenname als string auf den stack holen
+              methodIlGen.Emit(OpCodes.Ldloc, argumentRedirectionArray); // pufferarray auf den stack holen
+              methodIlGen.Emit(OpCodes.Ldloc, argumentNameArray); // pufferarray auf den stack holen
+              methodIlGen.Emit(OpCodes.Ldstr, methodSignatureString); // < methoden-signatur als string auf den stack holen
 
               // aufruf auf umgeleitete funktion absetzen
-              withBlock2.Emit(OpCodes.Callvirt, iDynamicProxyInvokerTypeInvokeMethod); // _DynamicProxyInvoker.InvokeMethod("Foo", args)
+              methodIlGen.Emit(OpCodes.Callvirt, iDynamicProxyInvokerTypeInvokeMethod); // _DynamicProxyInvoker.InvokeMethod("Foo", args)
                                                                                        // jetzt liegt ein result auf dem stack...
-
               if (localReturnValue is null) {
-                withBlock2.Emit(OpCodes.Pop); // result (void) vom stack löschen (weil wir nix zurückgeben)
+                methodIlGen.Emit(OpCodes.Pop); // result (void) vom stack löschen (weil wir nix zurückgeben)
               }
               else if (mi.ReturnType.IsValueType) {
-                withBlock2.Emit(OpCodes.Unbox_Any, mi.ReturnType); // value-types müssen unboxed werden, weil der retval in "object" ist
-                withBlock2.Emit(OpCodes.Stloc, localReturnValue); // < speichere es in 'returnValueBuffer'
+                methodIlGen.Emit(OpCodes.Unbox_Any, mi.ReturnType); // value-types müssen unboxed werden, weil der retval in "object" ist
+                methodIlGen.Emit(OpCodes.Stloc, localReturnValue); // < speichere es in 'returnValueBuffer'
               }
               else {
-                withBlock2.Emit(OpCodes.Castclass, mi.ReturnType); // reference-types müssen gecastet werden, weil der retval in "object" ist
-                withBlock2.Emit(OpCodes.Stloc, localReturnValue);
-              } // < speichere es in 'returnValueBuffer'
-
-              // '#############################
-
-              // TODO: ByRef-Parameter aus transport-array "auspacken" und zurückschreiben!!!
-
-              // %%%%%%%%%%%%  basearg1 = DirectCast(args(0), String)
-              // IL_003c: ldarg.1             < lade das erste methoden-agrument auf den stack
-
-              // IL_003d: ldloc.1             < lade array auf den stack
-              // IL_003e: ldc.i4.0            < lade integer 0 auf den stack
-              // IL_003f: ldelem.ref          < hole die element-referenz aus dem array heraus
-
-              // IL_0040: castclass [mscorlib]System.String            < directcast    Bei refernece-types
-
-              // IL_0045: stind.ref           < auf die oben bereitgelegte adresse des byref parameters rückschreiben  OBJECT-VERSION
-
-
-              // %%%%%%%%%%%%   basearg4 = DirectCast(args(3), Integer)
-              // IL_0046: ldarg.s basearg4
-
-              // IL_0048: ldloc.1             < lade array auf den stack
-              // IL_0049: ldc.i4.3            < lade integer 3 auf den stack
-              // IL_004a: ldelem.ref          < hole die element-referenz aus dem array heraus
-
-              // IL_004b: unbox.any [mscorlib]System.Int32             < unbox bei value types
-
-              // IL_0050: stind.i4             < auf die bereitgelegte adresse des byref parameters rückschreiben  INTEGER-VERSION
-
-              // '#############################
-
-              if (localReturnValue is object) {
-                withBlock2.Emit(OpCodes.Ldloc, localReturnValue);
+                methodIlGen.Emit(OpCodes.Castclass, mi.ReturnType); // reference-types müssen gecastet werden, weil der retval in "object" ist
+                methodIlGen.Emit(OpCodes.Stloc, localReturnValue); // < speichere es in 'returnValueBuffer'
               }
 
-              withBlock2.Emit(OpCodes.Ret);
+              //ByRef-/Out-Parameter aus transport-array "auspacken" und zurückschreiben!!!
+              for (int paramIndex = 0, loopTo2 = paramNames.Count - 1; paramIndex <= loopTo2; paramIndex++) {
+                bool paramIsValueType = paramEvalIsValueType[paramIndex];
+                bool paramIsOut = paramEvalIsOut[paramIndex];
+                bool paramIsRef = paramEvalIsByRef[paramIndex];
+                var realParamType = realParamTypes[paramIndex];
+                if (paramIsRef) {
+
+                  //methodIlGen.Emit(OpCodes.Ldarga_S, paramIndex + 1); // zuzuweisendes methoden-argument auf den stack holen
+                  methodIlGen.Emit(OpCodes.Ldarg, paramIndex + 1); //argument-handle holen (als zuweisungs-ziel)
+
+                  methodIlGen.Emit(OpCodes.Ldloc, argumentRedirectionArray); // transport-array laden
+                  methodIlGen.Emit(OpCodes.Ldc_I4_S, (byte)paramIndex); // arrayindex als integer (zwecks feld-addressierung) erzeugen
+                  
+                  methodIlGen.Emit(OpCodes.Ldelem_Ref); //array-inhalt (object-handle) auf den stack holen
+
+                  if (paramIsValueType) {
+                    methodIlGen.Emit(OpCodes.Unbox_Any, realParamType); //array-inhalt auf den stack holen
+                  }
+   
+                  methodIlGen.Emit(OpCodes.Stind_Ref); //wert in die adresse des arguments schreiben
+                }
+              }
+
+              if (localReturnValue is object) {
+                methodIlGen.Emit(OpCodes.Ldloc, localReturnValue);
+              }
+
+              methodIlGen.Emit(OpCodes.Ret);
             }
 
             // note: 'DefineMethodOverride' is also used for implementing interface-methods
@@ -304,71 +333,6 @@ namespace System.Reflection.Dynamic {
       // assemblyBuilder.Save("Dynassembly.dll")
       return dynamicType;
     }
-
-    // OverridePropertiesForStandardValues(converterTypeBuilder, baseType)
-
-    // ' Methode GetStandardValues mit "Return New StandardValuesCollection(allowedValues)" überschreiben
-    // Dim methodBuilder = converterTypeBuilder.DefineMethod("GetStandardValues", MethodAttributes.Public Or MethodAttributes.ReuseSlot Or MethodAttributes.Virtual Or MethodAttributes.HideBySig)
-    // methodBuilder.SetReturnType(GetType(TypeConverter.StandardValuesCollection))
-    // methodBuilder.SetParameters({GetType(ITypeDescriptorContext)})
-    // Dim ilGeneratorOverriding = methodBuilder.GetILGenerator
-    // Dim listType = GetType(List(Of String))
-    // 'lokale Variable anlegen und eine neue Instanz von List(of String) zuweisen
-    // ilGeneratorOverriding.DeclareLocal(listType)
-    // ilGeneratorOverriding.Emit(OpCodes.Newobj, listType.GetConstructors()(0))
-    // ilGeneratorOverriding.Emit(OpCodes.Stloc_0)
-
-    // For index = 0 To allowedValues.Length - 1
-    // 'Liste befüllen
-    // ilGeneratorOverriding.Emit(OpCodes.Ldloc_0)
-    // ilGeneratorOverriding.Emit(OpCodes.Ldstr, allowedValues(index))
-    // ilGeneratorOverriding.Emit(OpCodes.Call, listType.GetMethod("Add", {GetType(String)}))
-    // Next
-
-    // 'Neue Instanz TypeConverter.StandardValuesCollection erzeugen (List(of String) als Konstruktorparameter)
-    // ilGeneratorOverriding.Emit(OpCodes.Ldloc_0)
-    // ilGeneratorOverriding.Emit(OpCodes.Newobj, GetType(TypeConverter.StandardValuesCollection).GetConstructors()(0))
-    // 'Und zurück (gibt das oberste Element des Stack zurück.
-    // ilGeneratorOverriding.Emit(OpCodes.Ret)
-
-    // Return converterTypeBuilder.CreateType
-
-    // CODDE FÜR REIN:
-
-    // Private _EventTriggers As New Dictionary(Of String, Action(Of Object()))
-
-    // Protected Sub New(invoker As IDynamicProxyInvoker)
-    // _Invoker = invoker
-    // For Each e In Me.GetType().GetEvents()
-    // _EventTriggers.Add(e.Name, Sub(parameters As Object()) e.RaiseMethod.Invoke(Me, parameters))
-    // Next
-    // End Sub
-
-    // Public ReadOnly Property Invoker As IDynamicProxyInvoker
-    // Get
-    // Return _Invoker
-    // End Get
-    // End Property
-
-    // Protected Function InvokeMethod(methodName As String, arguments As Object()) As Object
-    // Return _Invoker.InvokeMethod(methodName, arguments)
-    // End Function
-
-    // Protected Function GetPropertyValue(propertyName As String, indexArguments As Object()) As Object
-    // Return _Invoker.GetPropertyValue(propertyName, indexArguments)
-    // End Function
-
-    // Protected Sub SetPropertyValue(propertyName As String, value As Object, indexArguments As Object())
-    // _Invoker.SetPropertyValue(propertyName, value, indexArguments)
-    // End Sub
-
-    // Private Sub Invoker_Raising(eventName As String, arguments() As Object) Handles _Invoker.Raise
-    // Dim e As Action(Of Object())
-    // SyncLock _EventTriggers
-    // e = _EventTriggers(eventName)
-    // End SyncLock
-    // e.Invoke(arguments)
-    // End Sub
 
   }
 }
