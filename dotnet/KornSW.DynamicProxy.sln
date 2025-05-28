@@ -1,78 +1,79 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30907.101
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36121.58 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Lib.code", "Lib.code\Lib.code.shproj", "{CF0A161A-99BA-4F01-AF5E-16C6FCBC85AE}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4130D21C-FE8F-4925-93E7-217B4AF1B7D9}"
 	ProjectSection(SolutionItems) = preProject
+		..\doc\changelog.md = ..\doc\changelog.md
 		KornSW.DynamicProxy.nuspec = KornSW.DynamicProxy.nuspec
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicInterfaceProxy_net461", "lib.net461\DynamicInterfaceProxy_net461.csproj", "{46ADC8B8-2F14-4C31-87CA-95B71EE09EF9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E752DB06-00A0-4788-99F1-260E31FD33FC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicInterfaceProxy_net5.0", "lib.net5.0\DynamicInterfaceProxy_net5.0.csproj", "{ED6A04E6-8029-4B3A-A250-3B25B9340E3A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EFB5135D-039A-4D92-8FDD-9EA5D070F991}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Tests.code", "Tests.code\Tests.code.shproj", "{5E17C8E8-0BC8-4F7C-A022-C8104A415628}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicInterfaceProxy.Tests_net461", "Tests.net461\DynamicInterfaceProxy.Tests_net461.csproj", "{D0B8734C-340F-4B2A-80EE-C00AFDD59E13}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{81CFA8BC-CDB8-43C6-90C9-054D69104BB9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DynamicInterfaceProxy.Tests_net5.0", "Tests.net5.0\DynamicInterfaceProxy.Tests_net5.0.csproj", "{FBB1DA4C-6A98-4824-8BB7-C5F45AE34019}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KornSW.DynamicProxy", "src\KornSW.DynamicProxy\KornSW.DynamicProxy.shproj", "{CF0A161A-99BA-4F01-AF5E-16C6FCBC85AE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E752DB06-00A0-4788-99F1-260E31FD33FC}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "KornSW.DynamicProxy.Tests", "test\KornSW.DynamicProxy.Tests\KornSW.DynamicProxy.Tests.shproj", "{5E17C8E8-0BC8-4F7C-A022-C8104A415628}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{EFB5135D-039A-4D92-8FDD-9EA5D070F991}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KornSW.DynamicProxy.net8.0", "src\KornSW.DynamicProxy.net8.0\KornSW.DynamicProxy.net8.0.csproj", "{710BE83D-CA45-47E3-D9C6-9085D39D6E9F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{24674244-E4CB-4D13-A513-2F24C3FB13AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KornSW.DynamicProxy.net48", "src\KornSW.DynamicProxy.net48\KornSW.DynamicProxy.net48.csproj", "{46ADC8B8-2F14-4C31-87CA-95B71EE09EF9}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{2D08700D-C147-49AB-9C08-8E2AC79A3065}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KornSW.DynamicProxy.Tests.net8.0", "test\KornSW.DynamicProxy.Tests.net8.0\KornSW.DynamicProxy.Tests.net8.0.csproj", "{59BFE8D1-8B95-DA1D-D907-C7475D000A3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KornSW.DynamicProxy.Tests.net48", "test\KornSW.DynamicProxy.Tests.net48\KornSW.DynamicProxy.Tests.net48.csproj", "{D0B8734C-340F-4B2A-80EE-C00AFDD59E13}"
 EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Lib.code\Lib.code.projitems*{46adc8b8-2f14-4c31-87ca-95b71ee09ef9}*SharedItemsImports = 4
-		Tests.code\Tests.code.projitems*{5e17c8e8-0bc8-4f7c-a022-c8104a415628}*SharedItemsImports = 13
-		Lib.code\Lib.code.projitems*{cf0a161a-99ba-4f01-af5e-16c6fcbc85ae}*SharedItemsImports = 13
-		Tests.code\Tests.code.projitems*{d0b8734c-340f-4b2a-80ee-c00afdd59e13}*SharedItemsImports = 4
-		Lib.code\Lib.code.projitems*{ed6a04e6-8029-4b3a-a250-3b25b9340e3a}*SharedItemsImports = 5
-		Tests.code\Tests.code.projitems*{fbb1da4c-6a98-4824-8bb7-c5f45ae34019}*SharedItemsImports = 5
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{710BE83D-CA45-47E3-D9C6-9085D39D6E9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{710BE83D-CA45-47E3-D9C6-9085D39D6E9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{710BE83D-CA45-47E3-D9C6-9085D39D6E9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{710BE83D-CA45-47E3-D9C6-9085D39D6E9F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{46ADC8B8-2F14-4C31-87CA-95B71EE09EF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{46ADC8B8-2F14-4C31-87CA-95B71EE09EF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{46ADC8B8-2F14-4C31-87CA-95B71EE09EF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46ADC8B8-2F14-4C31-87CA-95B71EE09EF9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ED6A04E6-8029-4B3A-A250-3B25B9340E3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ED6A04E6-8029-4B3A-A250-3B25B9340E3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ED6A04E6-8029-4B3A-A250-3B25B9340E3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ED6A04E6-8029-4B3A-A250-3B25B9340E3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59BFE8D1-8B95-DA1D-D907-C7475D000A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59BFE8D1-8B95-DA1D-D907-C7475D000A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59BFE8D1-8B95-DA1D-D907-C7475D000A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59BFE8D1-8B95-DA1D-D907-C7475D000A3A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D0B8734C-340F-4B2A-80EE-C00AFDD59E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D0B8734C-340F-4B2A-80EE-C00AFDD59E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0B8734C-340F-4B2A-80EE-C00AFDD59E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0B8734C-340F-4B2A-80EE-C00AFDD59E13}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FBB1DA4C-6A98-4824-8BB7-C5F45AE34019}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FBB1DA4C-6A98-4824-8BB7-C5F45AE34019}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FBB1DA4C-6A98-4824-8BB7-C5F45AE34019}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FBB1DA4C-6A98-4824-8BB7-C5F45AE34019}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {E752DB06-00A0-4788-99F1-260E31FD33FC}
+		{81CFA8BC-CDB8-43C6-90C9-054D69104BB9} = {EFB5135D-039A-4D92-8FDD-9EA5D070F991}
 		{CF0A161A-99BA-4F01-AF5E-16C6FCBC85AE} = {EFB5135D-039A-4D92-8FDD-9EA5D070F991}
-		{46ADC8B8-2F14-4C31-87CA-95B71EE09EF9} = {24674244-E4CB-4D13-A513-2F24C3FB13AD}
-		{ED6A04E6-8029-4B3A-A250-3B25B9340E3A} = {24674244-E4CB-4D13-A513-2F24C3FB13AD}
 		{5E17C8E8-0BC8-4F7C-A022-C8104A415628} = {E752DB06-00A0-4788-99F1-260E31FD33FC}
-		{D0B8734C-340F-4B2A-80EE-C00AFDD59E13} = {2D08700D-C147-49AB-9C08-8E2AC79A3065}
-		{FBB1DA4C-6A98-4824-8BB7-C5F45AE34019} = {2D08700D-C147-49AB-9C08-8E2AC79A3065}
-		{24674244-E4CB-4D13-A513-2F24C3FB13AD} = {EFB5135D-039A-4D92-8FDD-9EA5D070F991}
-		{2D08700D-C147-49AB-9C08-8E2AC79A3065} = {E752DB06-00A0-4788-99F1-260E31FD33FC}
+		{710BE83D-CA45-47E3-D9C6-9085D39D6E9F} = {81CFA8BC-CDB8-43C6-90C9-054D69104BB9}
+		{46ADC8B8-2F14-4C31-87CA-95B71EE09EF9} = {81CFA8BC-CDB8-43C6-90C9-054D69104BB9}
+		{59BFE8D1-8B95-DA1D-D907-C7475D000A3A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{D0B8734C-340F-4B2A-80EE-C00AFDD59E13} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D2F37C1D-32F0-4BF2-AAEB-46B9D8C07D23}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		src\KornSW.DynamicProxy\KornSW.DynamicProxy.projitems*{46adc8b8-2f14-4c31-87ca-95b71ee09ef9}*SharedItemsImports = 4
+		test\KornSW.DynamicProxy.Tests\KornSW.DynamicProxy.Tests.projitems*{59bfe8d1-8b95-da1d-d907-c7475d000a3a}*SharedItemsImports = 5
+		test\KornSW.DynamicProxy.Tests\KornSW.DynamicProxy.Tests.projitems*{5e17c8e8-0bc8-4f7c-a022-c8104a415628}*SharedItemsImports = 13
+		src\KornSW.DynamicProxy\KornSW.DynamicProxy.projitems*{710be83d-ca45-47e3-d9c6-9085d39d6e9f}*SharedItemsImports = 5
+		src\KornSW.DynamicProxy\KornSW.DynamicProxy.projitems*{cf0a161a-99ba-4f01-af5e-16c6fcbc85ae}*SharedItemsImports = 13
+		test\KornSW.DynamicProxy.Tests\KornSW.DynamicProxy.Tests.projitems*{d0b8734c-340f-4b2a-80ee-c00afdd59e13}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal

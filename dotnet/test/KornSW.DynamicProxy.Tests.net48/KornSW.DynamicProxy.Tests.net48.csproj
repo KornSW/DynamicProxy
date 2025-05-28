@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>System.Reflection</RootNamespace>
     <AssemblyName>KornSW.DynamicInterfaceProxy.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -25,7 +25,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\%28Stage%29\Bin\net46\</OutputPath>
+    <OutputPath>..\..\dist\bin-net48\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NET46</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -57,12 +57,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\lib.net461\DynamicInterfaceProxy_net461.csproj">
+    <ProjectReference Include="..\..\src\KornSW.DynamicProxy.net48\KornSW.DynamicProxy.net48.csproj">
       <Project>{46adc8b8-2f14-4c31-87ca-95b71ee09ef9}</Project>
-      <Name>DynamicInterfaceProxy_net461</Name>
+      <Name>KornSW.DynamicInterfaceProxy.net48</Name>
     </ProjectReference>
   </ItemGroup>
-  <Import Project="..\Tests.code\Tests.code.projitems" Label="Shared" />
+  <Import Project="..\KornSW.DynamicProxy.Tests\KornSW.DynamicProxy.Tests.projitems" Label="Shared" />
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

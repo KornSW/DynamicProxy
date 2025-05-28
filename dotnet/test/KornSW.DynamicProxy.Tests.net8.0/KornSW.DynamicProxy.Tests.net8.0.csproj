@@ -1,38 +1,40 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>System.Reflection</RootNamespace>
-
-    <IsPackable>false</IsPackable>
-
-    <AssemblyVersion>0.0.0.0</AssemblyVersion>
-
-    <Version>0.0.0</Version>
-
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>KornSW.DynamicInterfaceProxy.Tests</AssemblyName>
+    <RootNamespace>System.Reflection</RootNamespace>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <DocumentationFile>..\..\dist\bin-net8.0\KornSW.DynamicInterfaceProxy.Tests.xml</DocumentationFile>
+    <OutputPath>..\..\dist\bin-net8.0\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
 
-    <PackageId>Tests</PackageId>
-
-    <Product>Tests</Product>
-
-    <Company />
-
-    <Authors>Tests</Authors>
+  <PropertyGroup>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageId>KornSW.DynamicInterfaceProxy.Tests</PackageId>
+    <Description>generates proxy-classes for given interfaces via EMIT which are redirecting every call to a background hook</Description>
+    <Product>KornSW.DynamicInterfaceProxy</Product>
+    <Company>(public domain)</Company>
+    <Copyright>KornSW</Copyright>
+    <Version>999.0.0</Version>
+    <AssemblyVersion>999.0.0.0</AssemblyVersion>
+    <Authors>KornSW</Authors>
+    <FileVersion>999.0.0.0</FileVersion>
+    <PackageTags>dynamic proxy EMIT runtime</PackageTags>
+    <PackageProjectUrl>https://github.com/KornSW/DynamicProxy</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KornSW/DynamicProxy</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
     <DefineConstants>DEBUG;TRACE;NET5</DefineConstants>
-    <OutputPath>..\(Stage)\Bin\net5.0\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
     <DefineConstants>TRACE;NET5</DefineConstants>
-    <OutputPath>..\(Stage)\Bin\net5.0\</OutputPath>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -44,9 +46,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\lib.net5.0\DynamicInterfaceProxy_net5.0.csproj" />
+    <ProjectReference Include="..\..\src\KornSW.DynamicProxy.net8.0\KornSW.DynamicProxy.net8.0.csproj" />
   </ItemGroup>
 
-  <Import Project="..\Tests.code\Tests.code.projitems" Label="Shared" />
+  <Import Project="..\KornSW.DynamicProxy.Tests\KornSW.DynamicProxy.Tests.projitems" Label="Shared" />
 
 </Project>
