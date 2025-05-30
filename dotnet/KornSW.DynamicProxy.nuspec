@@ -26,12 +26,12 @@
     <!-- https://docs.microsoft.com/en-us/nuget/create-packages/creating-a-package#from-a-convention-based-working-directory -->
     <file src="PackageIcon.png" target="" />
     <!-- .NET 4.8 -->
-    <file src="(Stage)\Bin\net48\KornSW.DynamicInterfaceProxy.dll" target="lib/net48" />
-    <file src="(Stage)\Bin\net48\KornSW.DynamicInterfaceProxy.xml" target="lib/net48" />
-    <file src="(Stage)\Bin\net48\KornSW.DynamicInterfaceProxy.pdb" target="lib/net48" />
+    <file src="dist\bin-net8.0\KornSW.DynamicInterfaceProxy.dll" target="lib/net48" />
+    <file src="dist\bin-net8.0\KornSW.DynamicInterfaceProxy.xml" target="lib/net48" />
+    <file src="dist\bin-net8.0\KornSW.DynamicInterfaceProxy.pdb" target="lib/net48" />
     <!-- .NET 8.0 -->
-    <file src="(Stage)\Bin\net8.0\KornSW.DynamicInterfaceProxy.dll" target="lib/net8.0" />
-    <file src="(Stage)\Bin\net8.0\KornSW.DynamicInterfaceProxy.xml" target="lib/net8.0" />
-    <file src="(Stage)\Bin\net8.0\KornSW.DynamicInterfaceProxy.pdb" target="lib/net8.0" />
+    <file src="dist\bin-net48\KornSW.DynamicInterfaceProxy.dll" target="lib/net8.0" />
+    <file src="dist\bin-net48\KornSW.DynamicInterfaceProxy.xml" target="lib/net8.0" />
+    <file src="dist\bin-net48\KornSW.DynamicInterfaceProxy.pdb" target="lib/net8.0" />
   </files>
 </package>
