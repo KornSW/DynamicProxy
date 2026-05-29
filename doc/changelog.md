@@ -7,7 +7,7 @@ This files contains a version history including all changes relevant for semanti
 
 ## Upcoming Changes
 
-*(none)*
+* **new Feature**: Moved targets from .net 6/8 to 8/10
 
 
 

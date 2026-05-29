@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36121.58 d17.14
+VisualStudioVersion = 17.14.36121.58
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4130D21C-FE8F-4925-93E7-217B4AF1B7D9}"
 	ProjectSection(SolutionItems) = preProject
@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KornSW.DynamicProxy.Tests.n
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KornSW.DynamicProxy.Tests.net48", "test\KornSW.DynamicProxy.Tests.net48\KornSW.DynamicProxy.Tests.net48.csproj", "{D0B8734C-340F-4B2A-80EE-C00AFDD59E13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KornSW.DynamicProxy.net10.0", "src\KornSW.DynamicProxy.net10.0\KornSW.DynamicProxy.net10.0.csproj", "{C917F8A7-A824-EF32-EF6F-D55F611F10F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KornSW.DynamicProxy.Tests.net10.0", "test\KornSW.DynamicProxy.Tests.net10.0\KornSW.DynamicProxy.Tests.net10.0.csproj", "{A08018A7-12E9-08A4-77C3-D18981D1B97B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{D0B8734C-340F-4B2A-80EE-C00AFDD59E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0B8734C-340F-4B2A-80EE-C00AFDD59E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0B8734C-340F-4B2A-80EE-C00AFDD59E13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C917F8A7-A824-EF32-EF6F-D55F611F10F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C917F8A7-A824-EF32-EF6F-D55F611F10F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C917F8A7-A824-EF32-EF6F-D55F611F10F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C917F8A7-A824-EF32-EF6F-D55F611F10F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A08018A7-12E9-08A4-77C3-D18981D1B97B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A08018A7-12E9-08A4-77C3-D18981D1B97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A08018A7-12E9-08A4-77C3-D18981D1B97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A08018A7-12E9-08A4-77C3-D18981D1B97B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +76,8 @@ Global
 		{46ADC8B8-2F14-4C31-87CA-95B71EE09EF9} = {81CFA8BC-CDB8-43C6-90C9-054D69104BB9}
 		{59BFE8D1-8B95-DA1D-D907-C7475D000A3A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{D0B8734C-340F-4B2A-80EE-C00AFDD59E13} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C917F8A7-A824-EF32-EF6F-D55F611F10F9} = {81CFA8BC-CDB8-43C6-90C9-054D69104BB9}
+		{A08018A7-12E9-08A4-77C3-D18981D1B97B} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D2F37C1D-32F0-4BF2-AAEB-46B9D8C07D23}
@@ -73,6 +87,8 @@ Global
 		test\KornSW.DynamicProxy.Tests\KornSW.DynamicProxy.Tests.projitems*{59bfe8d1-8b95-da1d-d907-c7475d000a3a}*SharedItemsImports = 5
 		test\KornSW.DynamicProxy.Tests\KornSW.DynamicProxy.Tests.projitems*{5e17c8e8-0bc8-4f7c-a022-c8104a415628}*SharedItemsImports = 13
 		src\KornSW.DynamicProxy\KornSW.DynamicProxy.projitems*{710be83d-ca45-47e3-d9c6-9085d39d6e9f}*SharedItemsImports = 5
+		test\KornSW.DynamicProxy.Tests\KornSW.DynamicProxy.Tests.projitems*{a08018a7-12e9-08a4-77c3-d18981d1b97b}*SharedItemsImports = 5
+		src\KornSW.DynamicProxy\KornSW.DynamicProxy.projitems*{c917f8a7-a824-ef32-ef6f-d55f611f10f9}*SharedItemsImports = 5
 		src\KornSW.DynamicProxy\KornSW.DynamicProxy.projitems*{cf0a161a-99ba-4f01-af5e-16c6fcbc85ae}*SharedItemsImports = 13
 		test\KornSW.DynamicProxy.Tests\KornSW.DynamicProxy.Tests.projitems*{d0b8734c-340f-4b2a-80ee-c00afdd59e13}*SharedItemsImports = 4
 	EndGlobalSection
