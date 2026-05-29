@@ -18,10 +18,10 @@
     <Product>KornSW.DynamicInterfaceProxy</Product>
     <Company>(public domain)</Company>
     <Copyright>KornSW</Copyright>
-    <Version>1.3.4</Version>
-    <AssemblyVersion>1.3.4</AssemblyVersion>
+    <Version>1.4.0</Version>
+    <AssemblyVersion>1.4.0</AssemblyVersion>
     <Authors>KornSW</Authors>
-    <FileVersion>1.3.4</FileVersion>
+    <FileVersion>1.4.0</FileVersion>
     <PackageTags>dynamic proxy EMIT runtime</PackageTags>
     <PackageProjectUrl>https://github.com/KornSW/DynamicProxy</PackageProjectUrl>
     <RepositoryUrl>https://github.com/KornSW/DynamicProxy</RepositoryUrl>
